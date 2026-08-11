@@ -11,11 +11,11 @@ export function websiteJsonLd() {
     url: absoluteUrl("/"),
     description: project.answerDescription,
     publisher: {
-      "@type": "RealEstateAgent",
-      name: siteConfig.brokerageName,
+      "@type": "Organization",
+      name: "Independent Real Estate Marketing Website",
       url: absoluteUrl("/"),
-      telephone: siteConfig.phone,
-      email: siteConfig.email,
+      description:
+        "Independent real estate agents operating an unofficial marketing website for Rosemont Grove. Not the builder and not the official Hallett Homes website.",
     },
   };
 }
@@ -75,19 +75,10 @@ export function placeJsonLd() {
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    name: siteConfig.brokerageName,
+    "@type": "Organization",
+    name: "Independent Real Estate Marketing Website",
     url: absoluteUrl("/"),
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteConfig.address.street,
-      addressLocality: siteConfig.address.city,
-      addressRegion: siteConfig.address.province,
-      postalCode: siteConfig.address.postalCode || undefined,
-      addressCountry: "CA",
-    },
+    description: siteConfig.legal.independentDisclaimer,
   };
 }
 

@@ -56,7 +56,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "How do I register for Rosemont Grove?",
     answer:
-      "Use the Request Private Access form on this website, or contact our team by phone or email. Registration helps you receive pricing, floor plans, incentives, and release updates.",
+      "Use the Request Private Access form on this website. Registration helps you receive pricing, floor plans, incentives, and release updates.",
   },
   {
     question: "Is Rosemont Grove in Brampton?",
@@ -66,7 +66,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "What is near Rosemont Grove?",
     answer:
-      "Rosemont Grove is positioned near natural heritage woodlands, creek corridors, and the Credit River Valley environment, with access via Heritage Road and Steeles Avenue West toward regional corridors including Highway 401 and Highway 407. Contact us for a tailored overview of amenities relevant to your household.",
+      "Rosemont Grove is positioned near natural heritage woodlands, creek corridors, and the Credit River Valley environment, with access via Heritage Road and Steeles Avenue West toward regional corridors including Highway 401 and Highway 407. Register through the private-access form for a tailored overview of amenities relevant to your household.",
   },
   {
     question: "When will Rosemont Grove homes be released?",
@@ -81,6 +81,6 @@ export const faqItems: FAQItem[] = [
   {
     question: "How can I book an appointment for Rosemont Grove?",
     answer:
-      "Request private access through the form on this site or call our team to book an appointment. Include your preferred home type and buying timeframe so we can prepare relevant information.",
+      "Request private access through the form on this site. Include your preferred home type and buying timeframe so relevant information can be prepared.",
   },
 ];

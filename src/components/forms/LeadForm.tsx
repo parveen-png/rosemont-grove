@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { project } from "@/data/project";
-import { siteConfig } from "@/config/site";
 import {
   buyingTimeframes,
   leadFormSchema,
@@ -161,7 +160,7 @@ export function LeadForm({
         </p>
         <p className="mt-4 max-w-md text-cream/80 leading-relaxed text-sm sm:text-base">
           Thank you. Our team will follow up with current Rosemont Grove
-          information. You may also call us at {siteConfig.phone}.
+          information using the details you provided.
         </p>
         <Button
           className="mt-6"
@@ -385,31 +384,9 @@ export function LeadFormSection() {
             />
             <div className="mt-8 space-y-4 text-sm leading-relaxed text-cream/75">
               <p id="private-access-heading">
-                Prefer to speak with someone directly? Call{" "}
-                <a
-                  href={siteConfig.phoneHref}
-                  className="underline underline-offset-4 hover:text-ivory"
-                  onClick={() =>
-                    trackEvent("phone_click", { location: "lead_section" })
-                  }
-                >
-                  {siteConfig.phone}
-                </a>{" "}
-                or email{" "}
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="underline underline-offset-4 hover:text-ivory"
-                  onClick={() =>
-                    trackEvent("email_click", { location: "lead_section" })
-                  }
-                >
-                  {siteConfig.email}
-                </a>
-                .
-              </p>
-              <p>
-                Operated by {siteConfig.brokerageName}
-                {siteConfig.agentName ? ` · ${siteConfig.agentName}` : ""}.
+                Use this form to register for current Rosemont Grove information.
+                This website is operated by independent real estate agents and is
+                not the official {project.builder} website.
               </p>
             </div>
           </div>

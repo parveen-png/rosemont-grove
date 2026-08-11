@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export async function GET() {
   const body = `# Rosemont Grove
 
-> Independent information and registration resource for Rosemont Grove, a Hallett Homes detached-home community in Brampton, Ontario.
+> Independent information and registration resource for Rosemont Grove, a Hallett Homes detached-home community in Brampton, Ontario. Operated by independent real estate agents. Not the official Hallett Homes website. Not the builder.
 
 ## Key Information
 
@@ -26,22 +26,13 @@ export async function GET() {
 - Location: ${absoluteUrl("/#location")}
 - Builder: ${absoluteUrl("/#builder")}
 - FAQ: ${absoluteUrl("/#faq")}
-- Private Access / Registration: ${absoluteUrl("/#private-access")}
-- Contact: ${absoluteUrl("/contact")}
+- Private Access / Registration: ${absoluteUrl("/#hero-private-access")}
 - Sources: ${absoluteUrl("/sources")}
 - Privacy Policy: ${absoluteUrl("/privacy-policy")}
 
-## Contact
-
-- Operator: ${siteConfig.brokerageName}
-- Agent: ${siteConfig.agentName}
-- Phone: ${siteConfig.phone}
-- Email: ${siteConfig.email}
-
 ## Notes
 
-- This website is an independent real estate marketing website and is not the official website of Hallett Homes.
-- Project information, pricing, availability, specifications and incentives are subject to change without notice.
+- ${siteConfig.legal.independentDisclaimer}
 - Content last reviewed: ${siteConfig.contentReviewedAt}
 `;
 

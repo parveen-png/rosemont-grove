@@ -10,7 +10,7 @@ import { absoluteUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `Privacy policy for the independent ${project.name} registration website operated by ${siteConfig.brokerageName}.`,
+  description: `Privacy policy for the independent ${project.name} registration website operated by independent real estate agents.`,
   alternates: { canonical: absoluteUrl("/privacy-policy") },
   openGraph: {
     title: "Privacy Policy | Rosemont Grove",
@@ -54,17 +54,10 @@ export default function PrivacyPolicyPage() {
               <h2 className="font-display text-2xl text-ink">Who we are</h2>
               <p className="mt-3">
                 This website is an independent real estate marketing website
-                operated by {siteConfig.brokerageName}
-                {siteConfig.agentName ? ` (${siteConfig.agentName})` : ""}. It is
-                not the official website of {project.builder}. Contact:{" "}
-                <a className="underline underline-offset-4" href={`mailto:${siteConfig.email}`}>
-                  {siteConfig.email}
-                </a>{" "}
-                ·{" "}
-                <a className="underline underline-offset-4" href={siteConfig.phoneHref}>
-                  {siteConfig.phone}
-                </a>
-                .
+                operated by independent real estate agents. It is not the
+                official website of {project.builder}, and the operators of this
+                site are not the builders of {project.name}. For inquiries, use
+                the registration form on this website.
               </p>
             </section>
 
@@ -89,9 +82,9 @@ export default function PrivacyPolicyPage() {
               <p className="mt-3">
                 We use submitted information to respond to registration and
                 information requests about {project.name}, share available
-                pricing/floor-plan materials when appropriate, schedule
-                appointments, and improve our response quality. Consent is
-                requested at the point of form submission.
+                pricing/floor-plan materials when appropriate, and improve our
+                response quality. Consent is requested at the point of form
+                submission.
               </p>
             </section>
 
@@ -114,9 +107,9 @@ export default function PrivacyPolicyPage() {
                 Third-party services
               </h2>
               <p className="mt-3">
-                Lead submissions may be delivered to the operator’s email inbox
-                and/or a configured CRM webhook. Map embeds may load content from
-                Google Maps. Builder links may direct you to{" "}
+                Lead submissions may be delivered to the operator’s configured
+                lead destination and/or CRM webhook. Map embeds may load content
+                from Google Maps. Builder links may direct you to{" "}
                 <a
                   href={project.builderUrl}
                   className="underline underline-offset-4"
@@ -132,13 +125,10 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="font-display text-2xl text-ink">Your choices</h2>
               <p className="mt-3">
-                You may contact us to request access, correction, or deletion of
-                personal information we hold about you, subject to applicable law
-                and legitimate business retention needs. Email{" "}
-                <a className="underline underline-offset-4" href={`mailto:${siteConfig.email}`}>
-                  {siteConfig.email}
-                </a>
-                .
+                You may submit a registration-form request to ask about access,
+                correction, or deletion of personal information we hold about
+                you, subject to applicable law and legitimate business retention
+                needs.
               </p>
             </section>
 

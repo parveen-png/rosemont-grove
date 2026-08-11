@@ -18,14 +18,14 @@ export default function NotFound() {
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button href="/">Back to Home</Button>
-          <Button href="/#private-access" variant="secondary">
+          <Button href="/#hero-private-access" variant="secondary">
             Request Private Access
           </Button>
         </div>
         <p className="mt-8 text-sm text-taupe">
-          Or visit our{" "}
-          <Link href="/contact" className="underline underline-offset-4">
-            contact page
+          Or review our{" "}
+          <Link href="/sources" className="underline underline-offset-4">
+            sources
           </Link>
           .
         </p>

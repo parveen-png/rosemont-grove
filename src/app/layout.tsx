@@ -4,7 +4,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
-import { siteConfig } from "@/config/site";
 import { project } from "@/data/project";
 import { absoluteUrl } from "@/lib/utils";
 import "./globals.css";
@@ -34,9 +33,9 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: project.name,
-  authors: [{ name: siteConfig.brokerageName }],
-  creator: siteConfig.brokerageName,
-  publisher: siteConfig.brokerageName,
+  authors: [{ name: "Independent Real Estate Agents" }],
+  creator: "Independent Real Estate Agents",
+  publisher: "Independent Real Estate Agents",
   keywords: [
     "Rosemont Grove",
     "Rosemont Grove Brampton",

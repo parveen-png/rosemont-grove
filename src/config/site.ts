@@ -1,6 +1,6 @@
 /**
- * Central site configuration — brokerage/operator identity and integrations.
- * Update these values for production; do not scatter business details in components.
+ * Central site configuration — operator identity and integrations.
+ * Public contact details are intentionally omitted; leads use the registration form.
  */
 
 export const siteConfig = {
@@ -8,14 +8,14 @@ export const siteConfig = {
   builderName: "Hallett Homes",
   builderUrl: "https://www.hallethomes.ca",
 
-  /** Independent brokerage / sales representative operating this website */
-  brokerageName: "Your Brokerage Name",
-  agentName: "Your Agent Name",
-  phone: "+1 (905) 555-0100",
-  phoneHref: "tel:+19055550100",
-  email: "info@example.com",
+  /** Independent brokerage / sales representation (not shown publicly as contact details) */
+  brokerageName: "Independent Real Estate Agents",
+  agentName: "",
+  phone: "",
+  phoneHref: "",
+  email: "",
   address: {
-    street: "Update Office Address",
+    street: "",
     city: "Brampton",
     province: "ON",
     postalCode: "",
@@ -40,7 +40,6 @@ export const siteConfig = {
     province: "Ontario",
     region: "Peel Region",
     country: "Canada",
-    /** Approximate community location for map links — refine when verified */
     mapQuery: "Heritage Road & Steeles Avenue West, Brampton, Ontario",
     coordinates: {
       lat: 43.6505,
@@ -55,16 +54,14 @@ export const siteConfig = {
   },
 
   form: {
-    /** Server-only recipient — also configurable via LEAD_NOTIFICATION_EMAIL */
-    notificationEmail:
-      process.env.LEAD_NOTIFICATION_EMAIL || "info@example.com",
+    notificationEmail: process.env.LEAD_NOTIFICATION_EMAIL || "",
   },
 
   contentReviewedAt: "2026-08-10",
 
   legal: {
     independentDisclaimer:
-      "This website is an independent real estate marketing website and is not the official website of Hallett Homes. Project information, pricing, availability, specifications and incentives are subject to change without notice. Images and renderings may be artist's concepts or atmospheric photography used for illustration. Please contact us for current information.",
+      "This website is operated by independent real estate agents and is not the official website of Hallett Homes. We are not the builders of Rosemont Grove and do not represent ourselves as the builder. Project information, pricing, availability, specifications and incentives are subject to change without notice. Images and renderings may be artist's concepts. Please use the registration form on this website for current information.",
   },
 } as const;
 

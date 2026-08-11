@@ -10,8 +10,7 @@ const quickLinks = [
   { href: "/#location", label: "Location" },
   { href: "/#builder", label: "Builder" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/#private-access", label: "Register" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#hero-private-access", label: "Register" },
   { href: "/sources", label: "Sources" },
   { href: "/privacy-policy", label: "Privacy Policy" },
 ];
@@ -52,34 +51,15 @@ export function Footer() {
 
           <div>
             <h2 className="text-[0.7rem] tracking-[0.24em] uppercase text-stone">
-              Project & Contact
+              Project
             </h2>
-            <address className="mt-5 not-italic text-sm leading-relaxed text-ivory/85 space-y-4">
+            <address className="mt-5 not-italic text-sm leading-relaxed text-ivory/85">
               <p>
                 {project.name}
                 <br />
                 {project.intersection}
                 <br />
                 {project.city}, {project.province}
-              </p>
-              <p>
-                {siteConfig.brokerageName}
-                <br />
-                {siteConfig.agentName}
-                <br />
-                <a
-                  href={siteConfig.phoneHref}
-                  className="hover:text-ivory underline-offset-4 hover:underline"
-                >
-                  {siteConfig.phone}
-                </a>
-                <br />
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="hover:text-ivory underline-offset-4 hover:underline"
-                >
-                  {siteConfig.email}
-                </a>
               </p>
             </address>
             <p className="mt-6 text-xs text-stone">
@@ -104,9 +84,8 @@ export function Footer() {
             {siteConfig.legal.independentDisclaimer}
           </p>
           <p className="text-xs text-stone/80">
-            © {year} {siteConfig.brokerageName}. Independent marketing website for{" "}
-            {project.name}. Not affiliated as the official {project.builder}{" "}
-            website.
+            © {year} Independent real estate marketing website for {project.name}.
+            Not the official {project.builder} website. Not the builder.
           </p>
         </div>
       </Container>

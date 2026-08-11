@@ -7,6 +7,7 @@
   --stone: #c4b8a8;
   --taupe: #8a7e70;
   --olive: #5c6452;
+  --burgundy: #6b2f3a;
   --charcoal: #2c2a26;
   --ink: #1a1814;
   --background: var(--ivory);
@@ -22,6 +23,7 @@
   --color-stone: var(--stone);
   --color-taupe: var(--taupe);
   --color-olive: var(--olive);
+  --color-burgundy: var(--burgundy);
   --color-charcoal: var(--charcoal);
   --color-ink: var(--ink);
   --font-sans: var(--font-sans);

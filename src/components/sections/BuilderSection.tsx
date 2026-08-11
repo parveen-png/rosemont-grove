@@ -4,7 +4,7 @@ import { Container, SectionHeading } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
 export function BuilderSection() {
-  const image = project.images.community;
+  const image = project.images.streetscape;
 
   return (
     <section

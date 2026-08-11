@@ -24,11 +24,7 @@ export function Hero() {
           className="object-cover object-center scale-105 motion-safe:animate-hero-drift"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_20%,rgba(26,24,20,0.35)_100%)]"
+          className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20"
           aria-hidden="true"
         />
       </div>
@@ -60,7 +56,11 @@ export function Hero() {
           >
             Request Private Access
           </Button>
-          <Button href="/#overview" variant="secondary" className="border-cream/35 text-ivory hover:bg-ivory/10 hover:border-ivory">
+          <Button
+            href="/#overview"
+            variant="secondary"
+            className="border-cream/35 text-ivory hover:bg-ivory/10 hover:border-ivory"
+          >
             Explore the Community
           </Button>
         </div>
@@ -77,12 +77,6 @@ export function Hero() {
             </div>
           ))}
         </dl>
-
-        {image.illustrative ? (
-          <p className="mt-8 text-[0.65rem] tracking-[0.12em] uppercase text-cream/45">
-            Atmospheric photography for illustration — official renderings available upon request
-          </p>
-        ) : null}
       </Container>
     </section>
   );

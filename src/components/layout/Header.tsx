@@ -54,7 +54,7 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8 lg:px-10">
-        <Logo />
+        <Logo variant="light" />
 
         <nav
           className="hidden lg:flex items-center gap-7"
@@ -64,7 +64,12 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-[0.72rem] tracking-[0.18em] uppercase text-charcoal/80 hover:text-ink transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+              className={cn(
+                "text-[0.72rem] tracking-[0.18em] uppercase transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4",
+                scrolled || open
+                  ? "text-charcoal/80 hover:text-ink focus-visible:outline-ink"
+                  : "text-cream/85 hover:text-ivory focus-visible:outline-ivory",
+              )}
             >
               {item.label}
             </Link>
@@ -75,6 +80,7 @@ export function Header() {
           <Button
             href="/#private-access"
             className="hidden sm:inline-flex"
+            variant={scrolled || open ? "primary" : "light"}
             onClick={() => trackEvent("nav_cta_click", { location: "header" })}
           >
             Request Private Access
@@ -82,7 +88,12 @@ export function Header() {
 
           <button
             type="button"
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center border border-stone/60 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className={cn(
+              "lg:hidden inline-flex h-11 w-11 items-center justify-center border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+              scrolled || open
+                ? "border-stone/60 text-ink focus-visible:outline-ink"
+                : "border-cream/40 text-ivory focus-visible:outline-ivory",
+            )}
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={open ? "Close menu" : "Open menu"}

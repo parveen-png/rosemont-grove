@@ -1,9 +1,12 @@
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import { project } from "@/data/project";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { MapEmbed } from "@/components/sections/MapEmbed";
 
 export function LocationSection() {
+  const aerial = project.images.aerial;
+
   return (
     <section
       id="location"
@@ -17,9 +20,12 @@ export function LocationSection() {
           description="Rosemont Grove is located at Heritage Road & Steeles Avenue West, Brampton, Ontario — a West Brampton address with access toward Mississauga and the western GTA."
         />
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+        <div className="mt-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
-            <h3 id="location-heading" className="font-display text-2xl sm:text-3xl text-ink">
+            <h3
+              id="location-heading"
+              className="font-display text-2xl sm:text-3xl text-ink"
+            >
               Heritage Road & Steeles Avenue West
             </h3>
             <p className="mt-2 text-taupe tracking-[0.08em] uppercase text-sm">
@@ -32,7 +38,23 @@ export function LocationSection() {
               connectivity toward the Highway 401 and Highway 407 corridors.
             </p>
 
-            <div className="mt-10 grid gap-8 sm:grid-cols-2">
+            <figure className="relative mt-8 aspect-[3/4] overflow-hidden bg-stone/20">
+              <Image
+                src={aerial.src}
+                alt={aerial.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover object-center"
+              />
+              <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-ink/75 to-transparent p-4 text-[0.65rem] tracking-[0.14em] uppercase text-cream/85">
+                Site context at Heritage Rd. & Steeles Ave. W.
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="space-y-8">
+            <MapEmbed />
+            <div className="grid gap-8 sm:grid-cols-2">
               {project.nearbyCategories.map((category) => (
                 <div key={category.title}>
                   <h4 className="text-[0.68rem] tracking-[0.22em] uppercase text-taupe">
@@ -41,7 +63,10 @@ export function LocationSection() {
                   <ul className="mt-4 space-y-2 text-sm text-charcoal/85">
                     {category.items.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-2 h-px w-3 shrink-0 bg-olive/70" aria-hidden="true" />
+                        <span
+                          className="mt-2 h-px w-3 shrink-0 bg-olive/70"
+                          aria-hidden="true"
+                        />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -50,8 +75,6 @@ export function LocationSection() {
               ))}
             </div>
           </div>
-
-          <MapEmbed />
         </div>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-2">

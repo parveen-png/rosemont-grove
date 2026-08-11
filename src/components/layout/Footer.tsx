@@ -24,7 +24,7 @@ export function Footer() {
       <Container className="py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr_1fr]">
           <div>
-            <Logo className="[&_span]:text-ivory [&_span:last-child]:text-stone" />
+            <Logo variant="dark" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-stone">
               An independent information and registration resource for{" "}
               {project.name}, a limited collection of luxury detached homes by{" "}

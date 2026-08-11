@@ -3,8 +3,8 @@ import { project } from "@/data/project";
 import { Container, SectionHeading } from "@/components/ui/Container";
 
 export function LifestyleSection() {
-  const woodland = project.images.hero;
-  const interior = project.images.interior;
+  const streetscape = project.images.streetscape;
+  const rendering = project.images.rendering38;
 
   return (
     <section
@@ -14,28 +14,28 @@ export function LifestyleSection() {
       <Container>
         <SectionHeading
           tone="dark"
-          eyebrow="Natural Setting"
+          eyebrow="Community & Setting"
           title="Luxury, Surrounded by Nature"
           description="Rosemont Grove is positioned amid natural heritage woodlands, greenery, and a meandering creek within the Credit River Valley environment — a quieter residential character for a limited detached enclave."
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-12 lg:gap-8">
-          <figure className="relative lg:col-span-7 aspect-[16/11] overflow-hidden">
+          <figure className="relative lg:col-span-8 aspect-[16/9] overflow-hidden">
             <Image
-              src={woodland.src}
-              alt={woodland.alt}
+              src={streetscape.src}
+              alt={streetscape.alt}
               fill
-              sizes="(max-width: 1024px) 100vw, 58vw"
+              sizes="(max-width: 1024px) 100vw, 66vw"
               className="object-cover"
             />
           </figure>
-          <div className="lg:col-span-5 flex flex-col justify-between gap-8">
-            <figure className="relative aspect-[4/3] overflow-hidden">
+          <div className="lg:col-span-4 flex flex-col justify-between gap-8">
+            <figure className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src={interior.src}
-                alt={interior.alt}
+                src={rendering.src}
+                alt={rendering.alt}
                 fill
-                sizes="(max-width: 1024px) 100vw, 35vw"
+                sizes="(max-width: 1024px) 100vw, 30vw"
                 className="object-cover"
               />
             </figure>

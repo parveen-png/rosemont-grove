@@ -78,7 +78,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <Button
-            href="/#private-access"
+            href="/#hero-private-access"
             className="hidden sm:inline-flex"
             variant={scrolled || open ? "primary" : "light"}
             onClick={() => trackEvent("nav_cta_click", { location: "header" })}
@@ -143,7 +143,7 @@ export function Header() {
             </Link>
           ))}
           <Button
-            href="/#private-access"
+            href="/#hero-private-access"
             className="mt-6 w-full"
             onClick={() => {
               setOpen(false);

@@ -16,7 +16,7 @@ export function StickyMobileCTA() {
           Call
         </a>
         <Link
-          href="/#private-access"
+          href="/#hero-private-access"
           className="inline-flex min-h-11 items-center justify-center bg-ink text-[0.72rem] tracking-[0.18em] uppercase text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           onClick={() =>
             trackEvent("pricing_request", { location: "sticky_mobile" })

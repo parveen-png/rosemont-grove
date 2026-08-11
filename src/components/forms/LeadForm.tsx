@@ -11,6 +11,7 @@ import {
 import { trackEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/Button";
 import { Container, SectionHeading } from "@/components/ui/Container";
+import { cn } from "@/lib/utils";
 
 type FieldErrors = Partial<Record<keyof LeadFormInput, string>>;
 
@@ -41,7 +42,15 @@ function getAttribution() {
   };
 }
 
-export function LeadFormSection() {
+export function LeadForm({
+  idPrefix = "lead",
+  compact = false,
+  source = "lead_section",
+}: {
+  idPrefix?: string;
+  compact?: boolean;
+  source?: string;
+}) {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -54,14 +63,10 @@ export function LeadFormSection() {
     [],
   );
 
-  useEffect(() => {
-    trackEvent("view_project");
-  }, []);
-
   function markStarted() {
     if (!started) {
       setStarted(true);
-      trackEvent("form_start");
+      trackEvent("form_start", { source });
     }
   }
 
@@ -87,7 +92,10 @@ export function LeadFormSection() {
       message: values.message || undefined,
       consent: values.consent,
       website: values.website,
-      attribution: getAttribution(),
+      attribution: {
+        ...getAttribution(),
+        utm_content: getAttribution()?.utm_content || source,
+      },
     });
 
     if (!parsed.success) {
@@ -102,7 +110,7 @@ export function LeadFormSection() {
       return;
     }
 
-    trackEvent("form_submit");
+    trackEvent("form_submit", { source });
 
     startTransition(async () => {
       try {
@@ -129,7 +137,10 @@ export function LeadFormSection() {
 
         setSuccess(true);
         setValues(initialState);
-        trackEvent("form_success");
+        trackEvent("form_success", { source });
+        if (source === "hero") {
+          trackEvent("hero_private_access_click");
+        }
       } catch {
         setFormError(
           "We could not submit your request. Please try again or call us.",
@@ -137,6 +148,225 @@ export function LeadFormSection() {
       }
     });
   }
+
+  if (success) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        className={cn(compact ? "py-6" : "py-10")}
+      >
+        <p className="font-display text-2xl sm:text-3xl text-ivory">
+          Request received
+        </p>
+        <p className="mt-4 max-w-md text-cream/80 leading-relaxed text-sm sm:text-base">
+          Thank you. Our team will follow up with current Rosemont Grove
+          information. You may also call us at {siteConfig.phone}.
+        </p>
+        <Button
+          className="mt-6"
+          variant="light"
+          onClick={() => setSuccess(false)}
+        >
+          Submit another request
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className={cn(
+        "relative grid gap-4 sm:grid-cols-2",
+        compact ? "gap-3.5" : "gap-5",
+      )}
+    >
+      <Field
+        id={`${idPrefix}-firstName`}
+        label="First Name"
+        required
+        autoComplete="given-name"
+        value={values.firstName}
+        error={errors.firstName}
+        onChange={(value) => updateField("firstName", value)}
+        compact={compact}
+      />
+      <Field
+        id={`${idPrefix}-lastName`}
+        label="Last Name"
+        required
+        autoComplete="family-name"
+        value={values.lastName}
+        error={errors.lastName}
+        onChange={(value) => updateField("lastName", value)}
+        compact={compact}
+      />
+      <Field
+        id={`${idPrefix}-email`}
+        label="Email"
+        type="email"
+        required
+        autoComplete="email"
+        value={values.email}
+        error={errors.email}
+        onChange={(value) => updateField("email", value)}
+        compact={compact}
+      />
+      <Field
+        id={`${idPrefix}-phone`}
+        label="Phone"
+        type="tel"
+        required
+        autoComplete="tel"
+        value={values.phone}
+        error={errors.phone}
+        onChange={(value) => updateField("phone", value)}
+        compact={compact}
+      />
+
+      <SelectField
+        id={`${idPrefix}-isRealtor`}
+        label="Are You a Realtor?"
+        required
+        value={values.isRealtor}
+        error={errors.isRealtor}
+        onChange={(value) =>
+          updateField("isRealtor", value as "yes" | "no" | "")
+        }
+        options={[
+          { value: "yes", label: "Yes" },
+          { value: "no", label: "No" },
+        ]}
+        compact={compact}
+      />
+      <SelectField
+        id={`${idPrefix}-buyingTimeframe`}
+        label="Buying Timeframe"
+        required
+        value={values.buyingTimeframe}
+        error={errors.buyingTimeframe}
+        onChange={(value) =>
+          updateField(
+            "buyingTimeframe",
+            value as (typeof buyingTimeframes)[number] | "",
+          )
+        }
+        options={buyingTimeframes.map((item) => ({
+          value: item,
+          label: item,
+        }))}
+        compact={compact}
+      />
+      <div className="sm:col-span-2">
+        <SelectField
+          id={`${idPrefix}-preferredHomeType`}
+          label="Preferred Home Type"
+          required
+          value={values.preferredHomeType}
+          error={errors.preferredHomeType}
+          onChange={(value) => updateField("preferredHomeType", value)}
+          options={homeTypeOptions.map((item) => ({
+            value: item,
+            label: item,
+          }))}
+          compact={compact}
+        />
+      </div>
+
+      {!compact ? (
+        <div className="sm:col-span-2">
+          <label
+            htmlFor={`${idPrefix}-message`}
+            className="block text-[0.68rem] tracking-[0.18em] uppercase text-cream/70"
+          >
+            Message
+          </label>
+          <textarea
+            id={`${idPrefix}-message`}
+            name="message"
+            rows={4}
+            value={values.message}
+            onChange={(event) => updateField("message", event.target.value)}
+            className="mt-2 w-full border border-cream/20 bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-cream/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+            placeholder="Tell us what you would like to receive"
+          />
+          {errors.message ? (
+            <p className="mt-2 text-sm text-red-200" role="alert">
+              {errors.message}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
+      <div
+        className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        <label htmlFor={`${idPrefix}-website`}>Website</label>
+        <input
+          id={`${idPrefix}-website`}
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.website}
+          onChange={(event) => updateField("website", event.target.value)}
+        />
+      </div>
+
+      <div className="sm:col-span-2">
+        <label className="flex items-start gap-3 text-sm text-cream/80">
+          <input
+            type="checkbox"
+            checked={values.consent}
+            onChange={(event) => updateField("consent", event.target.checked)}
+            className="mt-1 h-4 w-4 accent-cream"
+            required
+          />
+          <span>
+            I consent to being contacted about Rosemont Grove and related
+            real-estate information. See our{" "}
+            <a
+              href="/privacy-policy"
+              className="underline underline-offset-4 hover:text-ivory"
+            >
+              Privacy Policy
+            </a>
+            .
+          </span>
+        </label>
+        {errors.consent ? (
+          <p className="mt-2 text-sm text-red-200" role="alert">
+            {errors.consent}
+          </p>
+        ) : null}
+      </div>
+
+      {formError ? (
+        <p className="sm:col-span-2 text-sm text-red-200" role="alert">
+          {formError}
+        </p>
+      ) : null}
+
+      <div className="sm:col-span-2 pt-1">
+        <Button
+          type="submit"
+          variant="light"
+          className="w-full"
+          disabled={pending}
+        >
+          {pending ? "Sending…" : "Request Private Access"}
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+export function LeadFormSection() {
+  useEffect(() => {
+    trackEvent("view_project");
+  }, []);
 
   return (
     <section
@@ -185,210 +415,7 @@ export function LeadFormSection() {
           </div>
 
           <div className="border border-cream/15 bg-ink/40 p-6 sm:p-8">
-            {success ? (
-              <div role="status" aria-live="polite" className="py-10">
-                <p className="font-display text-3xl text-ivory">
-                  Request received
-                </p>
-                <p className="mt-4 max-w-md text-cream/80 leading-relaxed">
-                  Thank you. Our team will follow up with current Rosemont Grove
-                  information. You may also call us at {siteConfig.phone}.
-                </p>
-                <Button
-                  className="mt-8"
-                  variant="light"
-                  onClick={() => setSuccess(false)}
-                >
-                  Submit another request
-                </Button>
-              </div>
-            ) : (
-              <form
-                onSubmit={onSubmit}
-                noValidate
-                className="relative grid gap-5 sm:grid-cols-2"
-              >
-                <Field
-                  id="firstName"
-                  label="First Name"
-                  required
-                  autoComplete="given-name"
-                  value={values.firstName}
-                  error={errors.firstName}
-                  onChange={(value) => updateField("firstName", value)}
-                />
-                <Field
-                  id="lastName"
-                  label="Last Name"
-                  required
-                  autoComplete="family-name"
-                  value={values.lastName}
-                  error={errors.lastName}
-                  onChange={(value) => updateField("lastName", value)}
-                />
-                <Field
-                  id="email"
-                  label="Email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  value={values.email}
-                  error={errors.email}
-                  onChange={(value) => updateField("email", value)}
-                />
-                <Field
-                  id="phone"
-                  label="Phone"
-                  type="tel"
-                  required
-                  autoComplete="tel"
-                  value={values.phone}
-                  error={errors.phone}
-                  onChange={(value) => updateField("phone", value)}
-                />
-
-                <SelectField
-                  id="isRealtor"
-                  label="Are You a Realtor?"
-                  required
-                  value={values.isRealtor}
-                  error={errors.isRealtor}
-                  onChange={(value) =>
-                    updateField("isRealtor", value as "yes" | "no" | "")
-                  }
-                  options={[
-                    { value: "yes", label: "Yes" },
-                    { value: "no", label: "No" },
-                  ]}
-                />
-                <SelectField
-                  id="buyingTimeframe"
-                  label="Buying Timeframe"
-                  required
-                  value={values.buyingTimeframe}
-                  error={errors.buyingTimeframe}
-                  onChange={(value) =>
-                    updateField(
-                      "buyingTimeframe",
-                      value as (typeof buyingTimeframes)[number] | "",
-                    )
-                  }
-                  options={buyingTimeframes.map((item) => ({
-                    value: item,
-                    label: item,
-                  }))}
-                />
-                <div className="sm:col-span-2">
-                  <SelectField
-                    id="preferredHomeType"
-                    label="Preferred Home Type"
-                    required
-                    value={values.preferredHomeType}
-                    error={errors.preferredHomeType}
-                    onChange={(value) =>
-                      updateField("preferredHomeType", value)
-                    }
-                    options={homeTypeOptions.map((item) => ({
-                      value: item,
-                      label: item,
-                    }))}
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="message"
-                    className="block text-[0.68rem] tracking-[0.18em] uppercase text-cream/70"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    value={values.message}
-                    onChange={(event) =>
-                      updateField("message", event.target.value)
-                    }
-                    className="mt-2 w-full border border-cream/20 bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-cream/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
-                    placeholder="Tell us what you would like to receive"
-                  />
-                  {errors.message ? (
-                    <p className="mt-2 text-sm text-red-200" role="alert">
-                      {errors.message}
-                    </p>
-                  ) : null}
-                </div>
-
-                {/* Honeypot */}
-                <div
-                  className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
-                  aria-hidden="true"
-                >
-                  <label htmlFor="website">Website</label>
-                  <input
-                    id="website"
-                    name="website"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={values.website}
-                    onChange={(event) =>
-                      updateField("website", event.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="flex items-start gap-3 text-sm text-cream/80">
-                    <input
-                      type="checkbox"
-                      checked={values.consent}
-                      onChange={(event) =>
-                        updateField("consent", event.target.checked)
-                      }
-                      className="mt-1 h-4 w-4 accent-cream"
-                      required
-                    />
-                    <span>
-                      I consent to being contacted about Rosemont Grove and
-                      related real-estate information. See our{" "}
-                      <a
-                        href="/privacy-policy"
-                        className="underline underline-offset-4 hover:text-ivory"
-                      >
-                        Privacy Policy
-                      </a>
-                      .
-                    </span>
-                  </label>
-                  {errors.consent ? (
-                    <p className="mt-2 text-sm text-red-200" role="alert">
-                      {errors.consent}
-                    </p>
-                  ) : null}
-                </div>
-
-                {formError ? (
-                  <p
-                    className="sm:col-span-2 text-sm text-red-200"
-                    role="alert"
-                  >
-                    {formError}
-                  </p>
-                ) : null}
-
-                <div className="sm:col-span-2 pt-2">
-                  <Button
-                    type="submit"
-                    variant="light"
-                    className="w-full sm:w-auto"
-                    disabled={pending}
-                  >
-                    {pending ? "Sending…" : "Request Private Access"}
-                  </Button>
-                </div>
-              </form>
-            )}
+            <LeadForm idPrefix="section" source="lead_section" />
           </div>
         </div>
       </Container>
@@ -405,6 +432,7 @@ function Field({
   required,
   type = "text",
   autoComplete,
+  compact,
 }: {
   id: string;
   label: string;
@@ -414,6 +442,7 @@ function Field({
   required?: boolean;
   type?: string;
   autoComplete?: string;
+  compact?: boolean;
 }) {
   const errorId = `${id}-error`;
   return (
@@ -435,7 +464,10 @@ function Field({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full border border-cream/20 bg-transparent px-4 py-3 text-sm text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream min-h-11"
+        className={cn(
+          "mt-2 w-full border border-cream/20 bg-transparent px-4 text-sm text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream min-h-11",
+          compact ? "py-2.5" : "py-3",
+        )}
       />
       {error ? (
         <p id={errorId} className="mt-2 text-sm text-red-200" role="alert">
@@ -454,6 +486,7 @@ function SelectField({
   error,
   required,
   options,
+  compact,
 }: {
   id: string;
   label: string;
@@ -462,6 +495,7 @@ function SelectField({
   error?: string;
   required?: boolean;
   options: Array<{ value: string; label: string }>;
+  compact?: boolean;
 }) {
   const errorId = `${id}-error`;
   return (
@@ -481,7 +515,10 @@ function SelectField({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full border border-cream/20 bg-charcoal px-4 py-3 text-sm text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream min-h-11"
+        className={cn(
+          "mt-2 w-full border border-cream/20 bg-charcoal/80 px-4 text-sm text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream min-h-11",
+          compact ? "py-2.5" : "py-3",
+        )}
       >
         <option value="">Select</option>
         {options.map((option) => (

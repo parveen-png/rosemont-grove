@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+User-agent: Googlebot
+Allow: /
+
 User-agent: OAI-SearchBot
 Allow: /
 
@@ -11,3 +14,4 @@ User-agent: GPTBot
 Allow: /
 
 Sitemap: https://rosemontgrovehallethomes.com/sitemap.xml
+Sitemap: https://rosemontgrovehallethomes.com/sitemap/sitemap.xml

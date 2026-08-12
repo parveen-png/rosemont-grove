@@ -25,7 +25,7 @@ export const siteConfig = {
   /** Production canonical origin — set NEXT_PUBLIC_SITE_URL in production */
   websiteUrl:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://www.rosemontgrovehallethomes.com",
+    "https://rosemontgrovehallethomes.com",
 
   socialLinks: {
     facebook: "",

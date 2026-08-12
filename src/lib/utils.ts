@@ -5,7 +5,7 @@ export function cn(...classes: Array<string | false | null | undefined>) {
 export function absoluteUrl(path = "/") {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://www.rosemontgrovehallethomes.com";
+    "https://rosemontgrovehallethomes.com";
   if (!path || path === "/") return base;
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }

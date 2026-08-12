@@ -1,4 +1,5 @@
 import type { LeadSubmission } from "@/lib/lead/schema";
+import { appendRosemontGroveLeadToGoogleSheet } from "@/lib/google/sheets";
 
 export type LeadAdapterResult =
   | { ok: true; id?: string }
@@ -6,14 +7,18 @@ export type LeadAdapterResult =
 
 /**
  * Lead processing adapter interface.
- * Implement CRM providers here without exposing secrets to the client.
  *
- * Required environment variables (server-only):
- * - LEAD_NOTIFICATION_EMAIL — inbox for lead notifications
- * - CRM_PROVIDER — optional: "console" | "webhook" | "email"
- * - CRM_WEBHOOK_URL — optional webhook endpoint for CRM/automation
- * - CRM_API_KEY — optional API key sent as Bearer token to webhook
- * - RESEND_API_KEY — optional if using Resend email delivery later
+ * Required environment variables for Google Sheets (server-only):
+ * - GOOGLE_OAUTH_CLIENT_ID
+ * - GOOGLE_OAUTH_CLIENT_SECRET
+ * - GOOGLE_OAUTH_REFRESH_TOKEN
+ * - GOOGLE_SHEETS_SPREADSHEET_ID
+ * - GOOGLE_SHEETS_TAB_NAME (optional, defaults to Sheet1)
+ *
+ * Optional webhook fallback:
+ * - CRM_PROVIDER=webhook
+ * - CRM_WEBHOOK_URL
+ * - CRM_API_KEY
  */
 export interface LeadAdapter {
   submit(lead: LeadSubmission): Promise<LeadAdapterResult>;
@@ -30,6 +35,35 @@ class ConsoleLeadAdapter implements LeadAdapter {
       });
     }
     return { ok: true, id: `local-${Date.now()}` };
+  }
+}
+
+class GoogleSheetsLeadAdapter implements LeadAdapter {
+  async submit(lead: LeadSubmission): Promise<LeadAdapterResult> {
+    const result = await appendRosemontGroveLeadToGoogleSheet({
+      firstName: lead.firstName,
+      lastName: lead.lastName,
+      email: lead.email,
+      phone: lead.phone,
+      isRealtor: lead.isRealtor,
+      buyingTimeframe: lead.buyingTimeframe,
+      preferredHomeType: lead.preferredHomeType,
+      message: lead.message,
+      formSource: lead.attribution?.utm_content,
+      utmSource: lead.attribution?.utm_source,
+      utmMedium: lead.attribution?.utm_medium,
+      utmCampaign: lead.attribution?.utm_campaign,
+      landingPage: lead.attribution?.landing_page,
+      referrer: lead.attribution?.referrer,
+      submittedAt: lead.submittedAt,
+      projectName: lead.projectName,
+    });
+
+    if (!result.ok) {
+      return { ok: false, error: result.error };
+    }
+
+    return { ok: true, id: `sheets-${Date.now()}` };
   }
 }
 
@@ -62,7 +96,7 @@ class WebhookLeadAdapter implements LeadAdapter {
 }
 
 export function getLeadAdapter(): LeadAdapter {
-  const provider = (process.env.CRM_PROVIDER || "console").toLowerCase();
+  const provider = (process.env.CRM_PROVIDER || "sheets").toLowerCase();
   const webhookUrl = process.env.CRM_WEBHOOK_URL;
   const apiKey = process.env.CRM_API_KEY;
 
@@ -70,5 +104,9 @@ export function getLeadAdapter(): LeadAdapter {
     return new WebhookLeadAdapter(webhookUrl, apiKey);
   }
 
-  return new ConsoleLeadAdapter();
+  if (provider === "console") {
+    return new ConsoleLeadAdapter();
+  }
+
+  return new GoogleSheetsLeadAdapter();
 }

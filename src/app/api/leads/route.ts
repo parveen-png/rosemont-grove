@@ -68,7 +68,7 @@ export async function POST(request: Request) {
         {
           ok: false,
           error:
-            "We could not submit your request right now. Please call us or try again shortly.",
+            "We could not submit your request right now. Please try again shortly.",
         },
         { status: 502 },
       );
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
       {
         ok: false,
         error:
-          "We could not submit your request right now. Please call us or try again shortly.",
+          "We could not submit your request right now. Please try again shortly.",
       },
       { status: 500 },
     );
